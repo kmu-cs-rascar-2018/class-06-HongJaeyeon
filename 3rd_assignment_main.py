@@ -26,113 +26,88 @@ class myCar(object):
     # Complete the code to perform Third Assignment
     # =======================================================================
 
-
-
     def car_startup(self):
-        distance = self.car.distance_detector.get_distance()
-        while(True):
-            self.car.accelerator.go_forward(50)
+        num = 0
+        
+        while (True):
             distance = self.car.distance_detector.get_distance()
+            l = self.car.line_detector.read_digital()
+            self.car.accelerator.go_forward(50)
 
-            if(distance <= 30 and distance != -1) :
-                # 가이드 라인 만날 때까지 우회전 전진
+            if (distance == -1):
+                continue
+
+            elif (distance <= 30):
+                num += 1
+                # 가이드 라인 만날 때까지 좌회전 전진
                 self.car.steering.turn_left(90 - 35)
                 self.car.accelerator.go_forward(50)
-
-
-                while(self.car.line_detector.is_in_line() == False):
-                    pass
-
-                while(self.car.line_detector.is_in_line() == True):
-
-                    if l == [0, 0, 0, 0, 1]:
-                        self.car.steering.turn_right(90 + 35)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [0, 0, 0, 1, 1]:
-                        self.car.steering.turn_right(90 + 30)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [0, 0, 0, 1, 0]:
-                        self.car.steering.turn_right(90 + 10)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [0, 0, 1, 1, 0]:
-                        self.car.steering.turn_right(90 + 5)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [0, 1, 1, 0, 0]:
-                        self.car.steering.turn_left(90 - 5)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [0, 1, 0, 0, 0]:
-                        self.car.steering.turn_left(90 - 10)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [1, 1, 0, 0, 0]:
-                        self.car.steering.turn_left(90 - 30)
-                        self.car.accelerator.go_forward(50)
-                    elif l == [1, 0, 0, 0, 0]:
-                        self.car.steering.turn_left(90 - 35)
-                        self.car.accelerator.go_forward(50)
+                #가이드 라인을 만나면 우회전 전진
+                time.sleep(1)
+                
+                while True:
+                    if self.car.line_detector.is_in_line() == True:
+                        break
                     else:
-                        self.car.accelerator.go_forward(50)
-
-
-                # 가이드 라인과 평팽하도록 좌회전 전진
+                        continue
+                self.car.accelerator.go_backward(50)
+                time.sleep(0.4)
+                self.car.steering.turn_right(90 + 35)
+                self.car.accelerator.go_forward(40)
+                time.sleep(2)
+                
+                while True:
+                    if self.car.line_detector.is_in_line() == True:
+                        break
+                    else:
+                        continue
+                
+            elif l == [0, 0, 0, 0, 1]:
                 self.car.steering.turn_right(90 + 35)
                 self.car.accelerator.go_forward(50)
-
-                while (self.car.line_detector.is_in_line() == False):
-                    pass
-
-
-            if (self.car.line_detector.is_in_line() == True):
-
-                l = self.car.line_detector.read_digital()
-                distance = self.car.distance_detector.get_distance()
-
-
-                # 라인트래싱
-                if l == [0, 0, 0, 0, 1]:
-                    self.car.steering.turn_right(90 + 35)
-                    self.car.accelerator.go_forward(50)
-                elif l == [0, 0, 0, 1, 1]:
-                    self.car.steering.turn_right(90 + 30)
-                    self.car.accelerator.go_forward(50)
-                elif l == [0, 0, 0, 1, 0]:
-                    self.car.steering.turn_right(90 + 10)
-                    self.car.accelerator.go_forward(50)
-                elif l == [0, 0, 1, 1, 0]:
-                    self.car.steering.turn_right(90 + 5)
-                    self.car.accelerator.go_forward(50)
-                elif l == [0, 1, 1, 0, 0]:
-                    self.car.steering.turn_left(90 - 5)
-                    self.car.accelerator.go_forward(50)
-                elif l == [0, 1, 0, 0, 0]:
-                    self.car.steering.turn_left(90 - 10)
-                    self.car.accelerator.go_forward(50)
-                elif l == [1, 1, 0, 0, 0]:
-                    self.car.steering.turn_left(90 - 30)
-                    self.car.accelerator.go_forward(50)
-                elif l == [1, 0, 0, 0, 0]:
-                    self.car.steering.turn_left(90 - 35)
-                    self.car.accelerator.go_forward(50)
-                else:
-                    self.car.accelerator.go_forward(50)
-
-            else:
+            elif l == [0, 0, 0, 1, 1]:
+                self.car.steering.turn_right(90 + 30)
+                self.car.accelerator.go_forward(50)
+            elif l == [0, 0, 0, 1, 0]:
+                self.car.steering.turn_right(90 + 10)
+                self.car.accelerator.go_forward(50)
+            elif l == [0, 0, 1, 1, 0]:
+                self.car.steering.turn_right(90 + 5)
+                self.car.accelerator.go_forward(50)
+            elif l == [0, 1, 1, 0, 0]:
+                self.car.steering.turn_left(90 - 5)
+                self.car.accelerator.go_forward(50)
+            elif l == [0, 1, 0, 0, 0]:
+                self.car.steering.turn_left(90 - 10)
+                self.car.accelerator.go_forward(50)
+            elif l == [1, 1, 0, 0, 0]:
+                self.car.steering.turn_left(90 - 30)
+                self.car.accelerator.go_forward(50)
+            elif l == [1, 0, 0, 0, 0]:
+                self.car.steering.turn_left(90 - 35)
+                self.car.accelerator.go_forward(50)
+            elif l == [0, 0, 0, 0, 0]:
                 # 우회전 후진
                 self.car.steering.turn_right(90 + 35)
-                self.car.accelerator.go_backward(100)
-                time.sleep(0.3)    # 좌회전 전진
+                self.car.accelerator.go_backward(35)
+                time.sleep(0.5)
+                # 좌회전 전진
                 self.car.steering.turn_left(90 - 35)
-                self.car.accelerator.go_forward(100)
+                self.car.accelerator.go_forward(30)
+                time.sleep(0.45)
                 # 전진
-                self.car.accelerator.go_forward(100)
-
-
-
+                self.car.accelerator.go_forward(50)
+            elif l == [1, 1, 1, 1, 1]:
+                if num == 4:
+                    self.car.accelerator.stop()
+                    time.sleep(3)
+                    break
+        
+        
 if __name__ == "__main__":
     try:
         myCar = myCar("CarName")
         myCar.car_startup()
 
     except KeyboardInterrupt:
-        # when the Ctrl+C key has been pressed,
-        # the moving object will be stopped
         myCar.drive_parking()
